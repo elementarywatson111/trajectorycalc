@@ -3,7 +3,9 @@
 A browser-based calculator that estimates the maximum height, flight time, and range of a projectile launched at an angle, optionally from an elevated height.
 
 ## Live Demo
-[Open TrajectoryCalc](https://YOUR-USERNAME.github.io/trajectorycalc/)## Features
+[Open TrajectoryCalc](https://YOUR-USERNAME.github.io/trajectorycalc/)
+
+## Features
 
 - Calculates time of flight, max height, and range
 - Accounts for optional non-zero launch height
