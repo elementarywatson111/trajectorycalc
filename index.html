@@ -1,1 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TrajectoryCalc | Projectile Motion Calculator</title>
 
+  <style>
+    * { box-sizing: border-box; font-family: Arial, sans-serif; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #1a0a33, #6a1b9a);
+      color: #ffffff;
+    }
+
+    .card {
+      width: min(92%, 460px);
+      padding: 32px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.12);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
+      backdrop-filter: blur(8px);
+    }
+
+    h1 { margin: 0 0 8px; text-align: center; }
+
+    .subtitle {
+      margin: 0 0 24px;
+      text-align: center;
+      color: #eadcff;
+      line-height: 1.45;
+    }
+
+    label { display: block; margin-top: 16px; margin-bottom: 6px; font-weight: bold; }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 24px;
+      padding: 13px;
+      border: none;
+      border-radius: 8px;
+      background: #d891ff;
+      color: #2b0a4a;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover { background: #eeb8ff; }
+
+    .result {
+      margin-top: 24px;
+      padding: 18px;
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.2);
+      line-height: 1.7;
+    }
+
+    .warning {
+      margin-top: 20px;
+      font-size: 13px;
+      color: #eadcff;
+      line-height: 1.45;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="card">
+    <h1>🚀 TrajectoryCalc</h1>
+    <p class="subtitle">
+      Estimate maximum height, flight time, and range of a projectile.
+    </p>
+
+    <label for="velocity">Initial velocity (m/s)</label>
+    <input id="velocity" type="number" min="0" placeholder="Example: 25">
+
+    <label for="angle">Launch angle (degrees)</label>
+    <input id="angle" type="number" min="0" max="90" placeholder="Example: 45">
+
+    <label for="height">Launch height (m, optional)</label>
+    <input id="height" type="number" min="0" placeholder="Example: 0">
+
+    <button onclick="calculate()">Calculate</button>
+
+    <div class="result" id="result">
+      Enter values above to calculate.
+    </div>
+
+    <p class="warning">
+      Disclaimer: Assumes no air resistance and constant gravity. Educational use only.
+    </p>
+  </main>
+
+  <script>
+    function calculate() {
+      const g = 9.81;
+      const v0 = Number(document.getElementById("velocity").value);
+      const angleDeg = Number(document.getElementById("angle").value);
+      const h0 = Number(document.getElementById("height").value) || 0;
+      const result = document.getElementById("result");
+
+      if (v0 <= 0 || angleDeg <= 0 || angleDeg > 90) {
+        result.innerHTML = "Enter a positive velocity and an angle between 0 and 90.";
+        return;
+      }
+
+      const angleRad = angleDeg * Math.PI / 180;
+      const vx = v0 * Math.cos(angleRad);
+      const vy = v0 * Math.sin(angleRad);
+
+      const tFlight = (vy + Math.sqrt(vy * vy + 2 * g * h0)) / g;
+      const range = vx * tFlight;
+      const maxHeight = h0 + (vy * vy) / (2 * g);
+
+      result.innerHTML = `
+        <strong>Estimated results</strong><br>
+        Time of flight: ${tFlight.toFixed(2)} s<br>
+        Max height: ${maxHeight.toFixed(2)} m<br>
+        Range: ${range.toFixed(2)} m
+      `;
+    }
+  </script>
+</body>
+</html>
